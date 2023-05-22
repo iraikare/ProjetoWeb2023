@@ -47,6 +47,27 @@
         </tbody>
     </table>
 </div>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Produtos
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var item in Model.produtos)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome);
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 
 @section styles{
@@ -63,7 +84,7 @@
         });
         $(document).ready(function () {
             $('li').removeClass("active");
-            $('#liFabricantes').addClass("active");
+            $('#liHome').addClass("active");
         });
     </script>
 }

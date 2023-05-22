@@ -2,6 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Listagem de CATEGORIAS";
 }
 @if (@TempData["Message"] != null)
 {
@@ -47,7 +48,7 @@
         </table>
     </div>
     <div class="panel-footer panel-info">
-        @Html.ActionLink("Registrar uma nova Categoria", "Create", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Registrar uma nova CATEGORIA", "Create", null, new { @class = "btn btn-success" })
     </div>
 </div>
 @section styles{

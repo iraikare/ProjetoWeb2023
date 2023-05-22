@@ -17,7 +17,7 @@ namespace WebAppProjeto2023.Controllers
 
             h.fabricantes = context.Fabricantes.OrderBy(c => c.Nome);
             h.categorias = context.Categorias.OrderBy(c => c.Nome);
-
+            h.produtos = context.Produtos.OrderBy(c => c.Nome);
             return View(h);
         }
     }
