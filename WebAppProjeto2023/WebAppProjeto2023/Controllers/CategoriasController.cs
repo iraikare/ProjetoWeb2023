@@ -26,7 +26,7 @@ namespace WebAppProjeto2023.Controllers
             return View(context.Categorias.OrderBy(c => c.Nome));
         }
         // GET: Categorias
-        public ActionResult Create() 
+        public ActionResult Create()  
         {
             return View();
         }
