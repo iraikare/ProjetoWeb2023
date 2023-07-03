@@ -16,7 +16,7 @@ new { enctype = "multipart/form-data" }))
             <div class="form-horizontal">
                 <h4>Produto</h4>
                 <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" }) 
                 @Html.HiddenFor(model => model.ProdutoId)
                 <div class="form-group">
                     @Html.LabelFor(model => model.Nome, htmlAttributes:
