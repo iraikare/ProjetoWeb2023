@@ -1,18 +1,20 @@
-﻿@model IEnumerable<WebAppProjeto2023.Models.Categoria>
+﻿@model IEnumerable<Modelo.Tabelas.Categoria>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Listagem de CATEGORIAS";
 }
+
 @if (@TempData["Message"] != null)
 {
     <div class="alert alert-success" role="alert">
         @TempData["Message"]
     </div>
 }
+
 <div class="panel panel-primary">
     <div class="panel-heading">
-        Relação de Categorias registradas
+        Relação de CATEGORIAS registradas
     </div>
     <div class="panel-body">
         <table class="table table-striped table-hover">
@@ -40,7 +42,7 @@
                         <td>
                             @Html.ActionLink("Alterar", "Edit", new { id = item.CategoriaId }) |
                             @Html.ActionLink("Detalhes", "Details", new { id = item.CategoriaId }) |
-                            @Html.ActionLink("Eliminar", "Delete", new { id = item.CategoriaId })
+                            @Html.ActionLink("Excluir", "Delete", new { id = item.CategoriaId })
                         </td>
                     </tr>
                 }
@@ -59,9 +61,11 @@
     <script src="@Url.Content("~/scripts/DataTables-1.10.2/dataTables.bootstrap.js")"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.table').dataTable({
-                "order": [[1, "asc"]]
-            });
+            $('.table').dataTable(
+                {
+                    "order": [[1, "asc"]]
+                }
+            );
         });
         $(document).ready(function () {
             $('li').removeClass("active");

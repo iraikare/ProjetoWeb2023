@@ -1,4 +1,4 @@
-﻿@model WebAppProjeto2023.Models.Fabricante
+﻿@model Modelo.Cadastros.Fabricante
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,7 +19,7 @@
                     {
                     @class = "control-label col-md-2"
                     })
-                    <div class="col-md-7">
+                    <div class="col-md-10">
                         @Html.EditorFor(model => model.Nome, new
                         {
                             htmlAttributes =
@@ -33,7 +33,7 @@
         </div>
         <div class="panel-footer panel-info">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Adicionar Fabricante" class="btn btn-success" />
+                <input type="submit" value="Adicionar Fabricante" class="btn btn-info" />
                 @Html.ActionLink("Retornar para a listagem de FABRICANTES", "Index", null,
                 new { @class = "btn btn-warning" })
             </div>

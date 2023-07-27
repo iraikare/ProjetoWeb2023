@@ -5,106 +5,108 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Modelo.Tabelas;
+using Servico.Tabelas;
 using WebAppProjeto2023.Models;
 
 namespace WebAppProjeto2023.Controllers
 {
     public class CategoriasController : Controller
     {
-        /*private static IList<Categoria> categorias = new List<Categoria>()
-{
-        new Categoria() { CategoriaId = 1, Nome = "Notebooks"},
-        new Categoria() { CategoriaId = 2, Nome = "Monitores"},
-        new Categoria() { CategoriaId = 3, Nome = "Impressoras"},
-        new Categoria() { CategoriaId = 4, Nome = "Mouses"},
-        new Categoria() { CategoriaId = 5, Nome = "Desktops"}
-        };*/
-        private EFContext context = new EFContext();
-        // GET: Fabricantes
-        public ActionResult Index()
-        {
-            return View(context.Categorias.OrderBy(c => c.Nome));
-        }
-        // GET: Categorias
-        public ActionResult Create()  
-        {
-            return View();
-        }
-        // POST: Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Categoria categorias)
-        {
-            context.Categorias.Add(categorias);
-            context.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        // GET: Categorias/Edit/5
-        public ActionResult Edit(long? id)
+        private CategoriaServico categoriaServico = new CategoriaServico();
+
+        private ActionResult ObterVisaoCategoriaPorId(long? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(
+                HttpStatusCode.BadRequest);
             }
-            Categoria categoria = context.Categorias.Find(id);
+            Categoria categoria = categoriaServico.ObterCategoriaPorId((long)id);
             if (categoria == null)
             {
                 return HttpNotFound();
             }
             return View(categoria);
         }
-        // POST: Categorias/Edit/5
+        private ActionResult GravarCategoria(Categoria categoria)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    categoriaServico.GravarCategoria(categoria);
+                    return RedirectToAction("Index");
+                }
+                return View(categoria);
+            }
+            catch
+            {
+                return View(categoria);
+            }
+        }
+
+        // GET: Categorias
+        public ActionResult Index()
+        {
+            return View(categoriaServico.ObterCategoriasClassificadasPorNome());
+        }
+
+        // GET: Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Categoria categoria)
+        {
+            return GravarCategoria(categoria);
+        }
+
+        // GET: Edit
+        public ActionResult Edit(long? id)
+        {
+            return ObterVisaoCategoriaPorId(id);
+        }
+
+        // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Categoria categoria)
         {
-            if (ModelState.IsValid)
-            {
-                context.Entry(categoria).State = EntityState.Modified;
-                context.SaveChanges();
-                TempData["Message"] = "Categoria " + categoria.Nome.ToUpper() + " foi alterada";
-                return RedirectToAction("Index");
-            }
-            return View(categoria);
+            return GravarCategoria(categoria);
         }
-        // GET: Categorias/Details/5
+
+        // GET: Details
         public ActionResult Details(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Categoria categoria = context.Categorias.Where(f => f.CategoriaId == id).Include("Produtos.Fabricante").First();
-            if (categoria == null)
-            {
-                return HttpNotFound();
-            }
-            return View(categoria);
+            return ObterVisaoCategoriaPorId(id);
         }
-        // GET: Categorias/Delete/5
+
+        // GET: Delete
         public ActionResult Delete(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Categoria categoria = context.Categorias.Find(id);
-            if (categoria == null)
-            {
-                return HttpNotFound();
-            }
-            return View(categoria);
+            return ObterVisaoCategoriaPorId(id);
         }
-        // POST: Categorias/Delete/5
+
+        // POST: Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(long id)
         {
-            Categoria categoria = context.Categorias.Find(id);
-            context.Categorias.Remove(categoria);
-            context.SaveChanges();
-            TempData["Message"] = "Categoria " + categoria.Nome.ToUpper() + " foi removida";
-            return RedirectToAction("Index");
+            try
+            {
+                Categoria categoria = categoriaServico.EliminarCategoriaPorId(id);
+                TempData["Message"] = "Categoria \"" + categoria.Nome + "\" foi removida";
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }

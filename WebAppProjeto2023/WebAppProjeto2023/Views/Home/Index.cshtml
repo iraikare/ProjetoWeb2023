@@ -1,8 +1,7 @@
 ﻿@model WebAppProjeto2023.Models.Home
-
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Loja Virtual";
+    ViewBag.Title = "HOME PAGE";
 }
 
 <div>
@@ -18,9 +17,9 @@
             <tr>
                 @foreach (var item in Model.fabricantes)
                 {
-                    <td>
-                        @Html.ActionLink(item.Nome, "Index", "Home", new { FabricanteId = item.FabricanteId }, null)
-                    </td>
+                <td>
+                    @Html.ActionLink(item.Nome, "Index", "Home", new { FabricanteId = item.FabricanteId }, null)
+                </td>
                 }
             </tr>
         </tbody>
@@ -48,18 +47,17 @@
     </table>
 </div>
 
-@if ((Model.produtos != null) && (Model.filtro == "Fabricante"))
+@if (Model.produtos != null && Model.filtro == "Fabricante")
 {
-    <div class="alert alert-success" role="alert">
-        Produtos por Fabricante
+    <div>
+        <p>Relãção de PRODUTOS para Fabricantes</p>
         @Html.Partial("~/Views/Produtos/_PorFabricante.cshtml", Model.produtos.ToList())
     </div>
 }
-
-@if ((Model.produtos != null) && (Model.filtro == "Categoria"))
+@if (Model.produtos != null && Model.filtro == "Categoria")
 {
-    <div class="alert alert-success" role="alert">
-        Produtos por Categoria
+    <div>
+        <p>Relãção de PRODUTOS para Categorias</p>
         @Html.Partial("~/Views/Produtos/_PorCategoria.cshtml", Model.produtos.ToList())
     </div>
 }
@@ -70,4 +68,15 @@
 @section ScriptPage{
     <script src="@Url.Content("~/scripts/DataTables-1.10.2/jquery.dataTables.js")"></script>
     <script src="@Url.Content("~/scripts/DataTables-1.10.2/dataTables.bootstrap.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.table').dataTable({
+                "order": [[1, "asc"]]
+            });
+        });
+        $(document).ready(function () {
+            $('li').removeClass("active");
+            $('#liFabricantes').addClass("active");
+        });
+    </script>
 }
